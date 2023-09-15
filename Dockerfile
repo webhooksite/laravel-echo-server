@@ -1,5 +1,5 @@
-FROM node:latest
-MAINTAINER Jessica Smith <jessica.smith@fasthosts.com>
+FROM node:20.6.1-slim
+MAINTAINER Webhook.site <support@webhook.site>
 
 COPY files /
 RUN \
