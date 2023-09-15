@@ -1,5 +1,9 @@
 # Laravel Echo Server
 
+Forked from mintopia/laravel-echo-server, this version uses latest versions of Node, Laravel Echo Server and is built for multiple CPU architectures.
+
+`docker pull webhooksite/laravel-echo-server`
+
 ## Introduction
 
 This is a simple docker container for the [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server).
