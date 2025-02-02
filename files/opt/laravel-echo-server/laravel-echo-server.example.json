@@ -6,7 +6,8 @@
 	"databaseConfig": {
 		"redis": {
       "port": "{{ ECHO_REDIS_PORT }}",
-      "host": "{{ ECHO_REDIS_HOSTNAME }}"
+      "host": "{{ ECHO_REDIS_HOSTNAME }}",
+      "password": "{{ ECHO_REDIS_PASSWORD }}"
 		}
 	},
 	"devMode": "{{ ECHO_DEVMODE }}",
