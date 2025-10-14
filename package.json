@@ -1,5 +1,5 @@
 {
-  "name": "laravel-echo-server",
+  "name": "@webhooksite/laravel-echo-server",
   "version": "1.7.0",
   "description": "Laravel Echo Node JS Server for Socket.io maintained by Webhook.site",
   "homepage": "https://github.com/webhooksite/laravel-echo-server",

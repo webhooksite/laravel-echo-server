@@ -7,7 +7,7 @@ NodeJs server for Laravel Echo broadcasting with Socket.io.
 The following are required to function properly.
 
 *   Laravel 5.3
-*   Node 6.0+
+*   Node 23.0+
 *   Redis 3+
 
 Additional information on broadcasting with Laravel can be found on the
@@ -18,7 +18,7 @@ official docs: <https://laravel.com/docs/master/broadcasting>
 Install npm package globally with the following command:
 
 ``` shell
-$   npm install -g laravel-echo-server
+$   npm install -g @webhooksite/laravel-echo-server
 ```
 
 ### Initialize with CLI Tool
