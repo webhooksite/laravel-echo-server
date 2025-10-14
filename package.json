@@ -1,20 +1,24 @@
 {
   "name": "laravel-echo-server",
-  "version": "1.6.3",
-  "description": "Laravel Echo Node JS Server for Socket.io",
+  "version": "1.7.0",
+  "description": "Laravel Echo Node JS Server for Socket.io maintained by Webhook.site",
+  "homepage": "https://github.com/webhooksite/laravel-echo-server",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tlaverdure/Laravel-Echo-Server.git"
+    "url": "https://github.com/webhooksite/laravel-echo-server.git"
   },
   "main": "dist/index.js",
   "keywords": [
     "laravel",
     "socket.io"
   ],
-  "author": "Thiery Laverdure",
+  "author": "Webhook ApS",
   "license": "MIT",
   "jshintConfig": {
     "esversion": 6
+  },
+  "engines": {
+    "node": ">=23"
   },
   "scripts": {
     "build": "tsc",
@@ -25,22 +29,22 @@
     "colors": "1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "inquirer": "^7.1.0",
+    "inquirer": "^12.10.0",
     "ioredis": "^4.16.0",
     "lodash": "^4.17.15",
-    "request": "^2.88.2",
     "socket.io": "4.8.1",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",
-    "@types/node": "^13.9.1",
-    "typescript": "^3.8.3"
+    "@types/node": "^18.19.0",
+    "typescript": "^5.9.3"
   },
   "peerDependecies": {
     "sqlite3": "^3.1.13"
   },
   "bin": {
     "laravel-echo-server": "bin/server.js"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

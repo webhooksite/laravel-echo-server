@@ -1,3 +1,10 @@
+# 1.7.0
+
+- Updated to Node.js 23
+- Updated Socket.io from 2.x to 4.x, this may potentially break Socket.io 2.x clients, at the cost of fixing security vulnerabilities
+- Updated other dependencies, including TypeScript
+- Replaced `request` with native `fetch`
+
 # 1.6.3
 
 ## Fixed
