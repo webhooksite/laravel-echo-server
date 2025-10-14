@@ -125,6 +125,7 @@ export class EchoServer {
 
         if (this.options.devMode) {
             Log.warning('Starting server in DEV mode...\n');
+            Log.info(this.options)
         } else {
             Log.info('Starting server...\n')
         }

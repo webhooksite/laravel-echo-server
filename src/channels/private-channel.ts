@@ -1,14 +1,11 @@
-let request = require('request');
 let url = require('url');
-import { Channel } from './channel';
-import { Log } from './../log';
+import {Log} from './../log';
 
 export class PrivateChannel {
     /**
      * Create a new private channel instance.
      */
     constructor(private options: any) {
-        this.request = request;
     }
 
     /**
@@ -22,7 +19,7 @@ export class PrivateChannel {
     authenticate(socket: any, data: any): Promise<any> {
         let options = {
             url: this.authHost(socket) + this.options.authEndpoint,
-            form: { channel_name: data.channel },
+            form: {channel_name: data.channel},
             headers: (data.auth && data.auth.headers) ? data.auth.headers : {},
             rejectUnauthorized: false
         };
@@ -57,7 +54,8 @@ export class PrivateChannel {
                     authHostSelected = `${referer.protocol}//${referer.host}`;
                     break;
                 }
-            };
+            }
+            ;
         }
 
         if (this.options.devMode) {
@@ -84,35 +82,51 @@ export class PrivateChannel {
             options.headers = this.prepareHeaders(socket, options);
             let body;
 
-            this.request.post(options, (error, response, body, next) => {
-                if (error) {
+            fetch(options.url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    ...options.headers // Include any existing headers from options
+                },
+                body: new URLSearchParams(options.form).toString()
+            })
+                .then(response => {
+                    return response.text().then(body => ({ response, body }));
+                })
+                .then(({ response, body }) => {
+                    if (response.status !== 200) {
+                        if (this.options.devMode) {
+                            Log.warning(`[${new Date().toISOString()}] - ${socket.id} could not be authenticated to ${options.form.channel_name}`);
+                            Log.error(body);
+                        }
+
+                        reject({
+                            reason: 'Client can not be authenticated, got HTTP status ' + response.status,
+                            status: response.status
+                        });
+                    } else {
+                        if (this.options.devMode) {
+                            Log.info(`[${new Date().toISOString()}] - ${socket.id} authenticated for: ${options.form.channel_name}`);
+                        }
+
+                        let parsedBody;
+                        try {
+                            parsedBody = JSON.parse(body);
+                        } catch (e) {
+                            parsedBody = body;
+                        }
+
+                        resolve(parsedBody);
+                    }
+                })
+                .catch(error => {
                     if (this.options.devMode) {
                         Log.error(`[${new Date().toISOString()}] - Error authenticating ${socket.id} for ${options.form.channel_name}`);
                         Log.error(error);
                     }
 
-                    reject({ reason: 'Error sending authentication request.', status: 0 });
-                } else if (response.statusCode !== 200) {
-                    if (this.options.devMode) {
-                        Log.warning(`[${new Date().toISOString()}] - ${socket.id} could not be authenticated to ${options.form.channel_name}`);
-                        Log.error(response.body);
-                    }
-
-                    reject({ reason: 'Client can not be authenticated, got HTTP status ' + response.statusCode, status: response.statusCode });
-                } else {
-                    if (this.options.devMode) {
-                        Log.info(`[${new Date().toISOString()}] - ${socket.id} authenticated for: ${options.form.channel_name}`);
-                    }
-
-                    try {
-                        body = JSON.parse(response.body);
-                    } catch (e) {
-                        body = response.body
-                    }
-
-                    resolve(body);
-                }
-            });
+                    reject({reason: 'Error sending authentication request.', status: 0});
+                });
         });
     }
 
