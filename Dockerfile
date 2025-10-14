@@ -32,7 +32,7 @@ EXPOSE 6001
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:' + (process.env.LARAVEL_ECHO_SERVER_PORT || 6001) + '/socket.io/', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => { process.exit(1) })"
+  CMD node -e 'fetch(`http://${process.env.LARAVEL_ECHO_SERVER_HOST||'localhost'}:${process.env.LARAVEL_ECHO_SERVER_PORT||6001}`).then(res=>{process.exit(res.status===200?0:1)}).catch(()=>{process.exit(1)});'
 
 # Start the server
-CMD ["node", "server.js"]
+CMD ["node", "bin/server.js"]
