@@ -20,8 +20,8 @@ RUN npm run build
 RUN npm prune --omit=dev
 
 # Create a non-root user
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S echoserver -u 1001
+RUN addgroup --gid 1001 --system nodejs
+RUN adduser --system echoserver -u 1001
 
 # Change ownership of the app directory
 RUN chown -R echoserver:nodejs /app
