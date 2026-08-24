@@ -1,6 +1,6 @@
 # Laravel Echo Server
 
-NodeJs server for Laravel Echo broadcasting with Socket.io.
+Node.js server for Laravel Echo broadcasting with Socket.io 4.x.
 
 ## System Requirements
 
@@ -75,7 +75,6 @@ $ laravel-echo-server stop
 
 Edit the default configuration of the server by adding options to your **laravel-echo-server.json** file.
 
-
 | Title              | Default              | Description                 |
 | :------------------| :------------------- | :---------------------------|
 | `apiOriginAllow`   | `{}`                 | Configuration to allow API be accessed over CORS. [Example](#cross-domain-access-to-api) |
@@ -111,7 +110,6 @@ file, the following options can be overridden:
 - `sslPassphrase`: `LARAVEL_ECHO_SERVER_SSL_PASS`
 - `sslCertChainPath`: `LARAVEL_ECHO_SERVER_SSL_CHAIN`
 
-
 ### Running with SSL
 
 *   Your client side implementation must access the socket.io client from https.
@@ -121,12 +119,13 @@ file, the following options can be overridden:
 *Note: This library currently only supports serving from either http or https, not both.*
 
 #### Alternative SSL implementation
-If you are struggling to get SSL implemented with this package, you could look at using a proxy module within Apache or NginX. Essentially, instead of connecting your websocket traffic to https://yourserver.dev:6001/socket.io?..... and trying to secure it, you can connect your websocket traffic to https://yourserver.dev/socket.io. Behind the scenes, the proxy module of Apache or NginX will be configured to intercept requests for /socket.io, and internally redirect those to your echo server over non-ssl on port 6001. This keeps all of the traffic encrypted between browser and web server, as your web server will still do the SSL encryption/decryption. The only thing that is left unsecured is the traffic between your webserver and your Echo server, which might be acceptable in many cases.
-##### Sample NginX proxy config
+If you are struggling to get SSL implemented with this package, you could look at using a proxy module within Apache or Nginx. Essentially, instead of connecting your websocket traffic to https://yourserver.dev:6001/socket.io?..... and trying to secure it, you can connect your websocket traffic to https://yourserver.dev/socket.io. Behind the scenes, the proxy module of Apache or Nginx will be configured to intercept requests for /socket.io, and internally redirect those to your echo server over non-ssl on port 6001. This keeps all of the traffic encrypted between browser and web server, as your web server will still do the SSL encryption/decryption. The only thing that is left unsecured is the traffic between your webserver and your Echo server, which might be acceptable in many cases.
+
+##### Sample Nginx proxy config
 ```
 #the following would go within the server{} block of your web server config
 location /socket.io {
-	    proxy_pass http://laravel-echo-server:6001; #could be localhost if Echo and NginX are on the same box
+	    proxy_pass http://laravel-echo-server:6001; #could be localhost if Echo and Nginx are on the same box
 	    proxy_http_version 1.1;
 	    proxy_set_header Upgrade $http_upgrade;
 	    proxy_set_header Connection "Upgrade";
@@ -281,27 +280,29 @@ For example, if you wanted to pass a custom configuration to Redis:
 For example, if you wanted to use redis-sentinel, you need to pass a custom configuration : 
 
 ``` json
- "databaseConfig": {
-     "redis": {
-       "sentinels": [
-         {
-           "host": "redis-sentinel-0",
-           "port": 26379
-         },
-         {
-            "host": "redis-sentinel-1",
-            "port": 26379
-         }
-         {
-           "host": "redis-sentinel-2",
-           "port": 26379
-         }
-       ],
-       "name": "mymaster",
-       "sentinelPassword": "redis-password"
-     },
-   },
- ``` 
+{
+  "databaseConfig": {
+    "redis": {
+      "sentinels": [
+        {
+          "host": "redis-sentinel-0",
+          "port": 26379
+        },
+        {
+          "host": "redis-sentinel-1",
+          "port": 26379
+        },
+        {
+          "host": "redis-sentinel-2",
+          "port": 26379
+        }
+      ],
+      "name": "mymaster",
+      "sentinelPassword": "redis-password"
+    }
+  }
+}
+```
 *For more information about redis sentinel configuration you can check [this](https://github.com/luin/ioredis#sentinel)*
 ### SQLite
 
